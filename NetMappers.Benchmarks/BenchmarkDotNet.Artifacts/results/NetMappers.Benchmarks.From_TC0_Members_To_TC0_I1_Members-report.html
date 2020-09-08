@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>NetMappers.Benchmarks.From_TC0_Members_To_TC0_I1_Members-20200906-170516</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.1016 (1909/November2018Update/19H2)
+Intel Core i7-6820HQ CPU 2.70GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=3.1.401
+  [Host] : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+</code></pre>
+<pre><code>Job=InProcess  Toolchain=InProcessEmitToolchain  
+</code></pre>
+
+<table>
+<thead><tr><th>    Method</th><th>Mean</th><th>Error</th><th>StdDev</th>
+</tr>
+</thead><tbody><tr><td>ExpressMapperMap</td><td>180.41 ns</td><td>1.121 ns</td><td>0.936 ns</td>
+</tr><tr><td>AgileMapperMap</td><td>232.62 ns</td><td>3.840 ns</td><td>3.592 ns</td>
+</tr><tr><td>TinyMapperMap</td><td>126.04 ns</td><td>1.344 ns</td><td>1.191 ns</td>
+</tr><tr><td>AutoMapperMap</td><td>170.12 ns</td><td>2.209 ns</td><td>2.066 ns</td>
+</tr><tr><td>MapsterMap</td><td>59.20 ns</td><td>1.151 ns</td><td>0.899 ns</td>
+</tr><tr><td>AirMapperMap</td><td>30.08 ns</td><td>0.655 ns</td><td>0.701 ns</td>
+</tr><tr><td>HigLaboMapperMap</td><td>93.73 ns</td><td>1.891 ns</td><td>1.857 ns</td>
+</tr><tr><td>FastMapperMap</td><td>NA</td><td>NA</td><td>NA</td>
+</tr></tbody></table>
+</body>
+</html>

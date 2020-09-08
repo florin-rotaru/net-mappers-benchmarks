@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>NetMappers.Benchmarks.From_Account_To_AccountDto-20200906-165938</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.1016 (1909/November2018Update/19H2)
+Intel Core i7-6820HQ CPU 2.70GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=3.1.401
+  [Host] : .NET Core 3.1.7 (CoreCLR 4.700.20.36602, CoreFX 4.700.20.37001), X64 RyuJIT
+</code></pre>
+<pre><code>Job=InProcess  Toolchain=InProcessEmitToolchain  
+</code></pre>
+
+<table>
+<thead><tr><th>    Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>ExpressMapperMap</td><td>2,001.0 ns</td><td>39.16 ns</td><td>34.72 ns</td><td>0.9499</td><td>-</td><td>-</td><td>3.89 KB</td>
+</tr><tr><td>AgileMapperMap</td><td>1,056.9 ns</td><td>20.86 ns</td><td>37.61 ns</td><td>0.8221</td><td>-</td><td>-</td><td>3.36 KB</td>
+</tr><tr><td>TinyMapperMap</td><td>4,052.6 ns</td><td>59.84 ns</td><td>104.80 ns</td><td>0.8240</td><td>-</td><td>-</td><td>3.38 KB</td>
+</tr><tr><td>AutoMapperMap</td><td>2,209.0 ns</td><td>44.10 ns</td><td>50.78 ns</td><td>0.7706</td><td>-</td><td>-</td><td>3.15 KB</td>
+</tr><tr><td>MapsterMap</td><td>729.4 ns</td><td>14.50 ns</td><td>13.57 ns</td><td>0.7362</td><td>-</td><td>-</td><td>3.01 KB</td>
+</tr><tr><td>AirMapperMap</td><td>668.4 ns</td><td>12.21 ns</td><td>11.42 ns</td><td>0.7362</td><td>-</td><td>-</td><td>3.01 KB</td>
+</tr><tr><td>HigLaboMapperMap</td><td>525.0 ns</td><td>10.27 ns</td><td>11.42 ns</td><td>0.3977</td><td>-</td><td>-</td><td>1.63 KB</td>
+</tr><tr><td>FastMapperMap</td><td>5,545.8 ns</td><td>108.21 ns</td><td>101.22 ns</td><td>1.9608</td><td>-</td><td>-</td><td>8.02 KB</td>
+</tr></tbody></table>
+</body>
+</html>
