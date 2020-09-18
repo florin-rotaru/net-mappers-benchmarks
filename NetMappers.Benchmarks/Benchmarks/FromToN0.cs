@@ -3,6 +3,7 @@ using AutoMapper;
 using BenchmarkDotNet.Attributes;
 using Mapster;
 using Models;
+using SafeMapper;
 using System.Linq;
 
 namespace NetMappers.Benchmarks
@@ -13,6 +14,7 @@ namespace NetMappers.Benchmarks
         private readonly S _source;
         private readonly IMapper _autoMapper;
         private readonly Fixture _fixture;
+        //private readonly RoslynMapper.IMapEngine _roslynMapper;
 
         S NewSource() =>
             Air.Mapper.Mapper<TC0_Members, S>.Map(_fixture.Create<TC0_Members>());
@@ -38,6 +40,10 @@ namespace NetMappers.Benchmarks
             Nelibur.ObjectMapper.TinyMapper.Bind<S, D>();
 
             ExpressMapper.Mapper.Register<S, D>();
+
+            //_roslynMapper = RoslynMapper.MapEngine.DefaultInstance;
+            //_roslynMapper.SetMapper<S, D>();
+            //_roslynMapper.Build();
         }
 
         [Benchmark]
@@ -63,5 +69,17 @@ namespace NetMappers.Benchmarks
 
         [Benchmark]
         public D FastMapperMap() => FastMapper.NetCore.TypeAdapter.Adapt<S, D>(_source);
+
+        [Benchmark]
+        public D ValueInjecterMap() => Omu.ValueInjecter.Mapper.Map<S, D>(_source);
+
+        [Benchmark]
+        public D PowerMapperMap() => PowerMapper.Mapper.Map<S, D>(_source);
+
+        [Benchmark]
+        public D SafeMapperMap() => SafeMap.Convert<S, D>(_source);
+
+        //[Benchmark]
+        //public D RoslynMapperMap() => _roslynMapper.Map<S, D>(_source);
     }
 }

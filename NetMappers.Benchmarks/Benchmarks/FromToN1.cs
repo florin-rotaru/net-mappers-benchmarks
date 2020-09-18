@@ -3,16 +3,19 @@ using AutoMapper;
 using BenchmarkDotNet.Attributes;
 using Mapster;
 using Models;
+using SafeMapper;
 using System.Linq;
 
 namespace NetMappers.Benchmarks
 {
     [InProcess]
-    public class FromToN1<S, D> where D : new()
+    public class FromToN1<S, D>
+        where D : new()
     {
         private readonly S _source;
         private readonly IMapper _autoMapper;
         private readonly Fixture _fixture;
+        //private readonly RoslynMapper.IMapEngine _roslynMapper;
 
         S NewSource() =>
             Air.Mapper.Mapper<TC1, S>.Map(_fixture.Create<TC1>());
@@ -70,7 +73,6 @@ namespace NetMappers.Benchmarks
             Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I1_Members>();
             Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I2_Nullable_Members>();
 
-
             ExpressMapper.Mapper.Register<S, D>();
 
             ExpressMapper.Mapper.Register<TC0_Members, TC0_I0_Members>();
@@ -88,6 +90,27 @@ namespace NetMappers.Benchmarks
             ExpressMapper.Mapper.Register<TS0_Members, TS0_I0_Members>();
             ExpressMapper.Mapper.Register<TS0_Members, TS0_I1_Members>();
             ExpressMapper.Mapper.Register<TS0_Members, TS0_I2_Nullable_Members>();
+
+            //_roslynMapper = RoslynMapper.MapEngine.DefaultInstance;
+            //_roslynMapper.SetMapper<S, D>();
+
+            //_roslynMapper.SetMapper<TC0_Members, TC0_I0_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TC0_I1_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TC0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TC0_Members, TS0_I0_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TS0_I1_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TS0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TS0_Members, TC0_I0_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TC0_I1_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TC0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TS0_Members, TS0_I0_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TS0_I1_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TS0_I2_Nullable_Members>();
+
+            //_roslynMapper.Build();
         }
 
         [Benchmark]
@@ -113,5 +136,17 @@ namespace NetMappers.Benchmarks
 
         [Benchmark]
         public D FastMapperMap() => FastMapper.NetCore.TypeAdapter.Adapt<S, D>(_source);
+
+        [Benchmark]
+        public D ValueInjecterMap() => Omu.ValueInjecter.Mapper.Map<S, D>(_source);
+
+        [Benchmark]
+        public D PowerMapperMap() => PowerMapper.Mapper.Map<S, D>(_source);
+
+        [Benchmark]
+        public D SafeMapperMap() => SafeMap.Convert<S, D>(_source);
+
+        //[Benchmark]
+        //public D RoslynMapperMap() => _roslynMapper.Map<S, D>(_source);
     }
 }

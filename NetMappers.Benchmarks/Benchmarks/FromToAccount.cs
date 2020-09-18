@@ -3,6 +3,7 @@ using AutoMapper;
 using BenchmarkDotNet.Attributes;
 using Mapster;
 using Models;
+using SafeMapper;
 using System.Linq;
 
 namespace NetMappers.Benchmarks
@@ -14,6 +15,7 @@ namespace NetMappers.Benchmarks
         private readonly Account _source;
         private readonly IMapper _autoMapper;
         private readonly Fixture _fixture;
+        private readonly RoslynMapper.IMapEngine _roslynMapper;
 
         public From_Account_To_AccountDto()
         {
@@ -48,6 +50,14 @@ namespace NetMappers.Benchmarks
             ExpressMapper.Mapper.Register<OrderItem, OrderItemDto>();
             ExpressMapper.Mapper.Register<Order, OrderDto>();
             ExpressMapper.Mapper.Register<Account, AccountDto>();
+
+            //_roslynMapper = RoslynMapper.MapEngine.DefaultInstance;
+            //_roslynMapper.SetMapper<Address, AddressDto>();
+            //_roslynMapper.SetMapper<Product, ProductDto>();
+            //_roslynMapper.SetMapper<OrderItem, OrderItemDto>();
+            //_roslynMapper.SetMapper<Order, OrderDto>();
+            //_roslynMapper.SetMapper<Account, AccountDto>();
+            //_roslynMapper.Build();
         }
 
         [Benchmark]
@@ -73,5 +83,17 @@ namespace NetMappers.Benchmarks
 
         [Benchmark]
         public AccountDto FastMapperMap() => FastMapper.NetCore.TypeAdapter.Adapt<Account, AccountDto>(_source);
+
+        [Benchmark]
+        public AccountDto ValueInjecterMap() => Omu.ValueInjecter.Mapper.Map<Account, AccountDto>(_source);
+
+        [Benchmark]
+        public AccountDto PowerMapperMap() => PowerMapper.Mapper.Map<Account, AccountDto>(_source);
+
+        [Benchmark]
+        public AccountDto SafeMapperMap() => SafeMap.Convert<Account, AccountDto>(_source);
+
+        //[Benchmark]
+        //public AccountDto RoslynMapperMap() => _roslynMapper.Map<Account, AccountDto>(_source);
     }
 }

@@ -10,17 +10,17 @@ Job=InProcess  Toolchain=InProcessEmitToolchain
 ```
 |           Method |        Mean |     Error |    StdDev |
 |----------------- |------------:|----------:|----------:|
-| ExpressMapperMap |   482.65 ns |  9.417 ns |  9.670 ns |
-|   AgileMapperMap |   263.72 ns |  4.490 ns |  4.200 ns |
-|    TinyMapperMap | 1,217.72 ns | 17.270 ns | 14.421 ns |
-|    AutoMapperMap |   835.20 ns |  2.432 ns |  2.275 ns |
-|       MapsterMap |   136.17 ns |  0.969 ns |  0.907 ns |
-|     AirMapperMap |    93.68 ns |  1.939 ns |  2.381 ns |
-| HigLaboMapperMap |   555.97 ns |  1.660 ns |  1.472 ns |
+| ExpressMapperMap |   474.53 ns |  6.162 ns |  5.145 ns |
+|   AgileMapperMap |   273.06 ns |  3.753 ns |  3.510 ns |
+|    TinyMapperMap | 1,276.15 ns |  9.185 ns |  7.670 ns |
+|    AutoMapperMap |   848.17 ns | 13.632 ns | 12.084 ns |
+|       MapsterMap |   147.35 ns |  2.334 ns |  2.183 ns |
+|     AirMapperMap |    98.51 ns |  1.867 ns |  1.559 ns |
+| HigLaboMapperMap |   557.93 ns | 11.151 ns | 12.394 ns |
 |    FastMapperMap |          NA |        NA |        NA |
-| ValueInjecterMap |   467.40 ns |  0.915 ns |  0.811 ns |
-|   PowerMapperMap |    57.55 ns |  0.164 ns |  0.145 ns |
-|    SafeMapperMap |   284.12 ns |  0.944 ns |  0.883 ns |
+| ValueInjecterMap |   449.42 ns |  7.246 ns |  6.778 ns |
+|   PowerMapperMap |    64.32 ns |  1.258 ns |  2.269 ns |
+|    SafeMapperMap |   322.32 ns |  5.685 ns |  5.318 ns |
 
 Benchmarks with issues:
   From_TC1_To_TC1_0.FastMapperMap: InProcess(Toolchain=InProcessEmitToolchain)

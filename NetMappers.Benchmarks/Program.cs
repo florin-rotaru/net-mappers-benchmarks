@@ -6,8 +6,10 @@ using AutoMapper;
 using BenchmarkDotNet.Running;
 using Mapster;
 using Models;
+using SafeMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace NetMappers.Benchmarks
@@ -16,11 +18,17 @@ namespace NetMappers.Benchmarks
     {
         private static Fixture _fixture;
         private static IMapper _autoMapper;
+        //private static RoslynMapper.IMapEngine _roslynMapper;
 
         private static void Main(string[] args)
         {
+            //ManualConfig config = ManualConfig
+            //.Create(DefaultConfig.Instance)
+            //.WithOptions(ConfigOptions.DisableOptimizationsValidator);
+
             BenchmarkRunner.Run<From_Account_To_AccountDto>();
             BenchmarkRunner.Run<From_TC0_Members_To_TC0_I0_Members>();
+
             BenchmarkRunner.Run<From_TC0_Members_To_TC0_I1_Members>();
             BenchmarkRunner.Run<From_TC0_Members_To_TC0_I2_Nullable_Members>();
 
@@ -42,9 +50,21 @@ namespace NetMappers.Benchmarks
             BenchmarkRunner.Run<From_TS1_To_TC1_0>();
             BenchmarkRunner.Run<From_TS1_To_TS1_0>();
 
+            var summaryPath = args.Length == 2 ? args[1] : string.Empty;
+
+            while (summaryPath == string.Empty)
+            {
+                Console.WriteLine("Summary path:");
+                summaryPath = Console.ReadLine();
+            }
+
+            if (!Directory.Exists(summaryPath))
+                return;
+
             ConfigureMappers();
 
             WriteTestResults(
+                summaryPath,
                 GetTestResults<TC0_Members, TC0_I0_Members>(_fixture.Create<TC0_Members>())
                 .Concat(GetTestResults<TC0_Members, TC0_I1_Members>(_fixture.Create<TC0_Members>()))
                 .Concat(GetTestResults<TC0_Members, TC0_I2_Nullable_Members>(_fixture.Create<TC0_Members>()))
@@ -65,7 +85,8 @@ namespace NetMappers.Benchmarks
                 .Concat(GetTestResults<TC1, TS1_0>(_fixture.Create<TC1>()))
 
                 .Concat(GetTestResults<TS1, TC1_0>(Mapper<TC1, TS1>.Map(_fixture.Create<TC1>())))
-                .Concat(GetTestResults<TS1, TS1_0>(Mapper<TC1, TS1>.Map(_fixture.Create<TC1>()))));
+                .Concat(GetTestResults<TS1, TS1_0>(Mapper<TC1, TS1>.Map(_fixture.Create<TC1>())))
+                );
 
             Console.ReadLine();
         }
@@ -163,6 +184,37 @@ namespace NetMappers.Benchmarks
 
             ExpressMapper.Mapper.Register<TS1, TC1_0>();
             ExpressMapper.Mapper.Register<TS1, TS1_0>();
+
+            //_roslynMapper = RoslynMapper.MapEngine.DefaultInstance;
+            //_roslynMapper.SetMapper<Address, AddressDto>();
+            //_roslynMapper.SetMapper<Product, ProductDto>();
+            //_roslynMapper.SetMapper<OrderItem, OrderItemDto>();
+            //_roslynMapper.SetMapper<Order, OrderDto>();
+            //_roslynMapper.SetMapper<Account, AccountDto>();
+
+            //_roslynMapper.SetMapper<TC0_Members, TC0_I0_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TC0_I1_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TC0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TC0_Members, TS0_I0_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TS0_I1_Members>();
+            //_roslynMapper.SetMapper<TC0_Members, TS0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TS0_Members, TC0_I0_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TC0_I1_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TC0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TS0_Members, TS0_I0_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TS0_I1_Members>();
+            //_roslynMapper.SetMapper<TS0_Members, TS0_I2_Nullable_Members>();
+
+            //_roslynMapper.SetMapper<TC1, TC1_0>();
+            //_roslynMapper.SetMapper<TC1, TS1_0>();
+
+            //_roslynMapper.SetMapper<TS1, TC1_0>();
+            //_roslynMapper.SetMapper<TS1, TS1_0>();
+
+            //_roslynMapper.Build();
         }
 
         class TestResult
@@ -187,7 +239,11 @@ namespace NetMappers.Benchmarks
                 { nameof(Mapster), () => source.Adapt<D>() },
                 { $"{nameof(Air)}{nameof(Air.Mapper)}", () => Mapper<S, D>.Map(source) },
                 { $"{nameof(HigLabo)}{nameof(HigLabo.Core.ObjectMapper)}", () => HigLabo.Core.ObjectMapper.Default.Map(source, new D()) },
-                { nameof(FastMapper), () => FastMapper.NetCore.TypeAdapter.Adapt<S, D>(source) }
+                { nameof(FastMapper), () => FastMapper.NetCore.TypeAdapter.Adapt<S, D>(source) },
+                { nameof(Omu.ValueInjecter), () => Omu.ValueInjecter.Mapper.Map<S, D>(source) },
+                { nameof(PowerMapper), () => PowerMapper.Mapper.Map<S, D>(source) },
+                { nameof(SafeMapper), () => SafeMap.Convert<S, D>(source) }
+                //{ nameof(RoslynMapper), () => _roslynMapper.Map<S, D>(source) }
             }.ForEach(test =>
             {
                 var testResult = new TestResult
@@ -219,71 +275,139 @@ namespace NetMappers.Benchmarks
             return testResults;
         }
 
-        private static void WriteTestResults(IEnumerable<TestResult> testResults)
+        private static void WriteTestResults(string path, IEnumerable<TestResult> testResults)
         {
-            Console.WriteLine("Results");
-            Console.WriteLine("|{0,-24}|{1,-12}|{2,-12}",
-                "Library",
-                "Passed",
-                "Failed");
+            string resultsPath = Path.Combine(path, DateTime.Now.ToString("yyyy.MM.dd"));
 
-            testResults
-                .GroupBy(g => g.Library)
-                .Select(grp => new
-                {
-                    library = $"{grp.Key}",
-                    passed = $"{grp.Count(r => !r.Err && r.Diffs.Count() == 0)}",
-                    failed = $"{grp.Count(r => r.Err || r.Diffs.Count() != 0)}"
-                })
-            .ForEach(r =>
-                Console.WriteLine("|{0,-24}|{1,-12}|{2,-12}",
-                    r.library,
-                    r.passed,
-                    r.failed));
+            if (!Directory.Exists(resultsPath))
+                Directory.CreateDirectory(resultsPath);
 
-            Console.WriteLine();
-            Console.WriteLine();
+            if (File.Exists(Path.Combine(resultsPath, "Summary.md")))
+                File.Delete(Path.Combine(resultsPath, "Summary.md"));
 
-            Console.WriteLine("Failed - Exceptions");
-            Console.WriteLine("|{0,-24}|{1,-16}|{2,-16}",
-                "Library",
-                "Source",
-                "Destination");
+            using (StreamWriter summary = new StreamWriter(Path.Combine(resultsPath, "Summary.md")))
+            {
+                Console.WriteLine("Results");
+                summary.WriteLine("# Results");
 
-            testResults
-                .Where(r => r.Err)
-                .OrderBy(r => r.Library)
+                Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                    "Library",
+                    "Passed",
+                    "Failed");
+                summary.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                    "Library",
+                    "Passed",
+                    "Failed");
+                summary.WriteLine($"|{new string('-', 20)}|{new string('-', 24)}|{new string('-', 24)}");
+
+                testResults
+                    .GroupBy(g => g.Library)
+                    .Select(grp => new
+                    {
+                        library = $"{grp.Key}",
+                        passed = $"{grp.Count(r => !r.Err && r.Diffs.Count() == 0)}",
+                        failed = $"{grp.Count(r => r.Err || r.Diffs.Count() != 0)}"
+                    })
                 .ForEach(r =>
-                    Console.WriteLine("|{0,-24}|{1,-16}|{2,-16}",
-                        r.Library,
-                        r.SourceType.Name,
-                        r.DestinationType.Name));
+                    {
+                        Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                            r.library,
+                            r.passed,
+                            r.failed);
+                        summary.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                            r.library,
+                            r.passed,
+                            r.failed);
+
+                    });
+            }
 
             Console.WriteLine();
             Console.WriteLine();
 
-            Console.WriteLine("Failed - Diffs");
-            Console.WriteLine("|{0,-24}|{1,-16}|{2,-16}|{3,-32}|{4,-32}|{5,-128}",
-                "Library",
-                "Source",
-                "Destination",
-                "Source Member",
-                "Destination Member",
-                "Details");
+            if (File.Exists(Path.Combine(resultsPath, "Failed.Exceptions.md")))
+                File.Delete(Path.Combine(resultsPath, "Failed.Exceptions.md"));
 
-            testResults
-                .Where(r => r.Diffs != null && r.Diffs.Count() != 0)
-                .OrderBy(r => r.Library)
-                .ForEach(r =>
-                    r.Diffs.ForEach(d =>
-                        Console.WriteLine("|{0,-24}|{1,-16}|{2,-16}|{3,-32}|{4,-32}|{5,-128}",
-                            r.Library,
-                            r.SourceType.Name,
-                            r.DestinationType.Name,
-                            d.LeftMember,
-                            d.RightMember,
-                            d.Details)));
+            using (StreamWriter failedExceptions = new StreamWriter(Path.Combine(resultsPath, "Failed.Exceptions.md")))
+            {
+                Console.WriteLine("Failed - Exceptions");
+                failedExceptions.WriteLine("# Failed - Exceptions");
 
+                Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                    "Library",
+                    "Source",
+                    "Destination");
+                failedExceptions.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                    "Library",
+                    "Source",
+                    "Destination");
+                failedExceptions.WriteLine($"|{new string('-', 20)}|{new string('-', 24)}|{new string('-', 24)}");
+
+                testResults
+                    .Where(r => r.Err)
+                    .OrderBy(r => r.Library)
+                    .ForEach(r =>
+                        {
+                            Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                                r.Library,
+                                r.SourceType.Name,
+                                r.DestinationType.Name);
+                            failedExceptions.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
+                                r.Library,
+                                r.SourceType.Name,
+                                r.DestinationType.Name);
+                        });
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            if (File.Exists(Path.Combine(resultsPath, "Failed.Diffs.md")))
+                File.Delete(Path.Combine(resultsPath, "Failed.Diffs.md"));
+
+            using (StreamWriter failedDiffs = new StreamWriter(Path.Combine(resultsPath, "Failed.Diffs.md")))
+            {
+                Console.WriteLine("Failed - Diffs");
+                failedDiffs.WriteLine("# Failed - Exceptions");
+
+                Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}|{3,-26}|{4,-26}|{5,-128}",
+                    "Library",
+                    "Source",
+                    "Destination",
+                    "Source Member",
+                    "Destination Member",
+                    "Details");
+                failedDiffs.WriteLine("|{0,-20}|{1,-24}|{2,-24}|{3,-26}|{4,-26}|{5,-128}",
+                    "Library",
+                    "Source",
+                    "Destination",
+                    "Source Member",
+                    "Destination Member",
+                    "Details");
+                failedDiffs.WriteLine($"|{new string('-', 20)}|{new string('-', 24)}|{new string('-', 24)}|{new string('-', 26)}|{new string('-', 26)}|{new string('-', 128)}");
+
+                testResults
+                    .Where(r => r.Diffs != null && r.Diffs.Count() != 0)
+                    .OrderBy(r => r.Library)
+                    .ForEach(r =>
+                        r.Diffs.ForEach(d =>
+                        {
+                            Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}|{3,-26}|{4,-26}|{5,-128}",
+                                r.Library,
+                                r.SourceType.Name,
+                                r.DestinationType.Name,
+                                d.LeftMember,
+                                d.RightMember,
+                                d.Details);
+                            failedDiffs.WriteLine("|{0,-20}|{1,-24}|{2,-24}|{3,-26}|{4,-26}|{5,-128}",
+                                r.Library,
+                                r.SourceType.Name,
+                                r.DestinationType.Name,
+                                d.LeftMember,
+                                d.RightMember,
+                                d.Details);
+                        }));
+            }
         }
     }
 }
