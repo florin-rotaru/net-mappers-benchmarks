@@ -24,6 +24,8 @@ Job=InProcess  Toolchain=InProcessEmitToolchain
 |   PowerMapperMap |   109.2 ns |   2.11 ns |   1.98 ns | 0.0324 |     - |     - |     136 B |
 |    SafeMapperMap | 1,235.2 ns |  16.33 ns |  13.64 ns | 0.9174 |     - |     - |    3840 B |
 
+*in the above results the **HigLaboMapperMap, PowerMapperMap** missed some member mappings*
+
 ### More benchmark results
 https://github.com/florin-rotaru/NetMappers.Benchmarks/tree/master/NetMappers.Benchmarks/BenchmarksResults/2020.09.18
 
