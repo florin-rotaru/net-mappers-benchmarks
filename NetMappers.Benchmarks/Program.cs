@@ -65,7 +65,8 @@ namespace NetMappers.Benchmarks
 
             WriteTestResults(
                 summaryPath,
-                GetTestResults<TC0_Members, TC0_I0_Members>(_fixture.Create<TC0_Members>())
+                GetTestResults<Account, AccountDto>(_fixture.Create<Account>())
+                .Concat(GetTestResults<TC0_Members, TC0_I0_Members>(_fixture.Create<TC0_Members>()))
                 .Concat(GetTestResults<TC0_Members, TC0_I1_Members>(_fixture.Create<TC0_Members>()))
                 .Concat(GetTestResults<TC0_Members, TC0_I2_Nullable_Members>(_fixture.Create<TC0_Members>()))
 
