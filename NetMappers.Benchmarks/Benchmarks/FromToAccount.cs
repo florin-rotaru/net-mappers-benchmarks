@@ -78,8 +78,8 @@ namespace NetMappers.Benchmarks
         [Benchmark]
         public AccountDto AirMapperMap() => Air.Mapper.Mapper<Account, AccountDto>.Map(_source);
 
-        [Benchmark]
-        public AccountDto HigLaboMapperMap() => HigLabo.Core.ObjectMapper.Default.Map(_source, new AccountDto());
+        //[Benchmark]
+        //public AccountDto HigLaboMapperMap() => HigLabo.Core.ObjectMapper.Default.Map(_source, new AccountDto());
 
         [Benchmark]
         public AccountDto FastMapperMap() => FastMapper.NetCore.TypeAdapter.Adapt<Account, AccountDto>(_source);
@@ -87,8 +87,8 @@ namespace NetMappers.Benchmarks
         [Benchmark]
         public AccountDto ValueInjecterMap() => Omu.ValueInjecter.Mapper.Map<Account, AccountDto>(_source);
 
-        [Benchmark]
-        public AccountDto PowerMapperMap() => PowerMapper.Mapper.Map<Account, AccountDto>(_source);
+        //[Benchmark]
+        //public AccountDto PowerMapperMap() => PowerMapper.Mapper.Map<Account, AccountDto>(_source);
 
         [Benchmark]
         public AccountDto SafeMapperMap() => SafeMap.Convert<Account, AccountDto>(_source);

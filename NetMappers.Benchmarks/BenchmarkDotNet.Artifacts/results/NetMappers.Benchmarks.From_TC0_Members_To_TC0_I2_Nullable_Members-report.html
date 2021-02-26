@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' />
-<title>NetMappers.Benchmarks.From_TC0_Members_To_TC0_I2_Nullable_Members-20200917-210426</title>
+<title>NetMappers.Benchmarks.From_TC0_Members_To_TC0_I2_Nullable_Members-20210225-235708</title>
 
 <style type="text/css">
 	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
@@ -13,10 +13,10 @@
 </head>
 <body>
 <pre><code>
-BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.1082 (1909/November2018Update/19H2)
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.1379 (1909/November2018Update/19H2)
 Intel Core i7-6820HQ CPU 2.70GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=3.1.402
-  [Host] : .NET Core 3.1.8 (CoreCLR 4.700.20.41105, CoreFX 4.700.20.41903), X64 RyuJIT
+.NET Core SDK=5.0.103
+  [Host] : .NET Core 5.0.3 (CoreCLR 5.0.321.7212, CoreFX 5.0.321.7212), X64 RyuJIT
 </code></pre>
 <pre><code>Job=InProcess  Toolchain=InProcessEmitToolchain  
 </code></pre>
@@ -24,17 +24,15 @@ Intel Core i7-6820HQ CPU 2.70GHz (Skylake), 1 CPU, 8 logical and 4 physical core
 <table>
 <thead><tr><th>    Method</th><th> Mean</th><th>Error</th><th>StdDev</th>
 </tr>
-</thead><tbody><tr><td>ExpressMapperMap</td><td>324.57 ns</td><td>6.113 ns</td><td>6.278 ns</td>
-</tr><tr><td>AgileMapperMap</td><td>272.25 ns</td><td>4.407 ns</td><td>4.122 ns</td>
-</tr><tr><td>TinyMapperMap</td><td>1,085.97 ns</td><td>16.175 ns</td><td>15.130 ns</td>
-</tr><tr><td>AutoMapperMap</td><td>420.02 ns</td><td>0.373 ns</td><td>0.312 ns</td>
-</tr><tr><td>MapsterMap</td><td>100.61 ns</td><td>0.911 ns</td><td>0.853 ns</td>
-</tr><tr><td>AirMapperMap</td><td>59.35 ns</td><td>1.251 ns</td><td>1.170 ns</td>
-</tr><tr><td>HigLaboMapperMap</td><td>498.16 ns</td><td>9.673 ns</td><td>9.500 ns</td>
+</thead><tbody><tr><td>ExpressMapperMap</td><td>293.48 ns</td><td>2.404 ns</td><td>2.249 ns</td>
+</tr><tr><td>AgileMapperMap</td><td>279.83 ns</td><td>1.288 ns</td><td>1.141 ns</td>
+</tr><tr><td>TinyMapperMap</td><td>1,034.81 ns</td><td>4.638 ns</td><td>3.873 ns</td>
+</tr><tr><td>AutoMapperMap</td><td>406.10 ns</td><td>7.972 ns</td><td>11.433 ns</td>
+</tr><tr><td>MapsterMap</td><td>90.54 ns</td><td>1.700 ns</td><td>1.507 ns</td>
+</tr><tr><td>AirMapperMap</td><td>62.69 ns</td><td>1.240 ns</td><td>1.218 ns</td>
 </tr><tr><td>FastMapperMap</td><td>NA</td><td>NA</td><td>NA</td>
-</tr><tr><td>ValueInjecterMap</td><td>2,336.34 ns</td><td>26.902 ns</td><td>25.164 ns</td>
-</tr><tr><td>PowerMapperMap</td><td>112.81 ns</td><td>2.249 ns</td><td>2.104 ns</td>
-</tr><tr><td>SafeMapperMap</td><td>277.14 ns</td><td>4.867 ns</td><td>4.552 ns</td>
+</tr><tr><td>ValueInjecterMap</td><td>2,177.05 ns</td><td>18.005 ns</td><td>15.961 ns</td>
+</tr><tr><td>SafeMapperMap</td><td>224.68 ns</td><td>0.920 ns</td><td>0.768 ns</td>
 </tr></tbody></table>
 </body>
 </html>

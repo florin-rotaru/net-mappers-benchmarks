@@ -131,8 +131,8 @@ namespace NetMappers.Benchmarks
         [Benchmark]
         public D AirMapperMap() => Air.Mapper.Mapper<S, D>.Map(_source);
 
-        [Benchmark]
-        public D HigLaboMapperMap() => HigLabo.Core.ObjectMapper.Default.Map(_source, new D());
+        //[Benchmark]
+        //public D HigLaboMapperMap() => HigLabo.Core.ObjectMapper.Default.Map(_source, new D());
 
         [Benchmark]
         public D FastMapperMap() => FastMapper.NetCore.TypeAdapter.Adapt<S, D>(_source);
@@ -140,8 +140,8 @@ namespace NetMappers.Benchmarks
         [Benchmark]
         public D ValueInjecterMap() => Omu.ValueInjecter.Mapper.Map<S, D>(_source);
 
-        [Benchmark]
-        public D PowerMapperMap() => PowerMapper.Mapper.Map<S, D>(_source);
+        //[Benchmark]
+        //public D PowerMapperMap() => PowerMapper.Mapper.Map<S, D>(_source);
 
         [Benchmark]
         public D SafeMapperMap() => SafeMap.Convert<S, D>(_source);

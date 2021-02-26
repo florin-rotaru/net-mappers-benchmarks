@@ -16,15 +16,3 @@
 |FastMapper          |TC1                     |TS1_0                   
 |FastMapper          |TS1                     |TC1_0                   
 |FastMapper          |TS1                     |TS1_0                   
-|TinyMapper          |TC0_Members             |TS0_I0_Members          
-|TinyMapper          |TC0_Members             |TS0_I1_Members          
-|TinyMapper          |TC0_Members             |TS0_I2_Nullable_Members 
-|TinyMapper          |TS0_Members             |TC0_I0_Members          
-|TinyMapper          |TS0_Members             |TC0_I1_Members          
-|TinyMapper          |TS0_Members             |TC0_I2_Nullable_Members 
-|TinyMapper          |TS0_Members             |TS0_I0_Members          
-|TinyMapper          |TS0_Members             |TS0_I1_Members          
-|TinyMapper          |TS0_Members             |TS0_I2_Nullable_Members 
-|TinyMapper          |TC1                     |TS1_0                   
-|TinyMapper          |TS1                     |TC1_0                   
-|TinyMapper          |TS1                     |TS1_0                   

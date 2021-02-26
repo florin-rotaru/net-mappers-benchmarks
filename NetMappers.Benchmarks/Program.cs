@@ -27,6 +27,7 @@ namespace NetMappers.Benchmarks
             //.WithOptions(ConfigOptions.DisableOptimizationsValidator);
 
             BenchmarkRunner.Run<From_Account_To_AccountDto>();
+
             BenchmarkRunner.Run<From_TC0_Members_To_TC0_I0_Members>();
 
             BenchmarkRunner.Run<From_TC0_Members_To_TC0_I1_Members>();
@@ -235,7 +236,7 @@ namespace NetMappers.Benchmarks
             {
                 { nameof(ExpressMapper), () => ExpressMapper.Mapper.Map<S, D>(source) },
                 { nameof(AgileObjects.AgileMapper), () => AgileObjects.AgileMapper.Mapper.Map(source).ToANew<D>() },
-                { nameof(Nelibur.ObjectMapper.TinyMapper), () => Nelibur.ObjectMapper.TinyMapper.Map<D>(source) },
+                //{ nameof(Nelibur.ObjectMapper.TinyMapper), () => Nelibur.ObjectMapper.TinyMapper.Map<D>(source) },
                 { nameof(AutoMapper), () => _autoMapper.Map<D>(source) },
                 { nameof(Mapster), () => source.Adapt<D>() },
                 { $"{nameof(Air)}{nameof(Air.Mapper)}", () => Mapper<S, D>.Map(source) },
