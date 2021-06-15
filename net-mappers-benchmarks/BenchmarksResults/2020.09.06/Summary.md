@@ -1,0 +1,10 @@
+|Library                 |Passed      |Failed
+|----------------------- |----------- |-----------
+|ExpressMapper           |16          |0
+|AgileMapper             |16          |0
+|TinyMapper              |4           |12
+|AutoMapper              |16          |0
+|Mapster                 |16          |0
+|StaticsMapper               |16          |0
+|HigLaboObjectMapper     |13          |3
+|FastMapper              |1           |15
