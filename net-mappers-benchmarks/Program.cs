@@ -1,12 +1,11 @@
 ﻿using AgileObjects.AgileMapper.Extensions;
-using Statics.Compare;
-using Statics.Mapper;
 using AutoFixture;
 using AutoMapper;
 using BenchmarkDotNet.Running;
 using Mapster;
 using Models;
-using SafeMapper;
+using Statics.Compare;
+using Statics.Mapper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -243,8 +242,8 @@ namespace NetMappers.Benchmarks
                 { $"{nameof(HigLabo)}{nameof(HigLabo.Core.ObjectMapper)}", () => HigLabo.Core.ObjectMapper.Default.Map(source, new D()) },
                 { nameof(FastMapper), () => FastMapper.NetCore.TypeAdapter.Adapt<S, D>(source) },
                 { nameof(Omu.ValueInjecter), () => Omu.ValueInjecter.Mapper.Map<S, D>(source) },
-                { nameof(PowerMapper), () => PowerMapper.Mapper.Map<S, D>(source) },
-                { nameof(SafeMapper), () => SafeMap.Convert<S, D>(source) }
+                { nameof(PowerMapper), () => PowerMapper.Mapper.Map<S, D>(source) }
+                //{ nameof(SafeMapper), () => SafeMap.Convert<S, D>(source) }
                 //{ nameof(RoslynMapper), () => _roslynMapper.Map<S, D>(source) }
             }.ForEach(test =>
             {

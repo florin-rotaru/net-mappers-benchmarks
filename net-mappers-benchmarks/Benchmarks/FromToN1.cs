@@ -3,7 +3,6 @@ using AutoMapper;
 using BenchmarkDotNet.Attributes;
 using Mapster;
 using Models;
-using SafeMapper;
 using System.Linq;
 
 namespace NetMappers.Benchmarks
@@ -143,8 +142,8 @@ namespace NetMappers.Benchmarks
         //[Benchmark]
         //public D PowerMapperMap() => PowerMapper.Mapper.Map<S, D>(_source);
 
-        [Benchmark]
-        public D SafeMapperMap() => SafeMap.Convert<S, D>(_source);
+        //[Benchmark]
+        //public D SafeMapperMap() => SafeMap.Convert<S, D>(_source);
 
         //[Benchmark]
         //public D RoslynMapperMap() => _roslynMapper.Map<S, D>(_source);
