@@ -1,30 +1,28 @@
 # NetMappers.Benchmarks
- 
 ``` ini
 
-BenchmarkDotNet=v0.12.1, OS=Windows 10.0.18363.1379 (1909/November2018Update/19H2)
-Intel Core i7-6820HQ CPU 2.70GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=5.0.103
-  [Host] : .NET Core 5.0.3 (CoreCLR 5.0.321.7212, CoreFX 5.0.321.7212), X64 RyuJIT
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19043.1348 (21H1/May2021Update)
+11th Gen Intel Core i5-1135G7 2.40GHz, 1 CPU, 8 logical and 4 physical cores
+.NET SDK=6.0.100
+  [Host] : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
 Job=InProcess  Toolchain=InProcessEmitToolchain  
 
 ```
-|           Method |       Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|----------------- |-----------:|----------:|----------:|-------:|------:|------:|----------:|
-| ExpressMapperMap | 2,263.7 ns |  45.18 ns |  57.14 ns | 0.9499 |     - |     - |    3985 B |
-|   AgileMapperMap | 1,047.8 ns |   5.91 ns |   5.53 ns | 0.8221 |     - |     - |    3441 B |
-|    TinyMapperMap | 3,977.6 ns |  13.73 ns |  12.85 ns | 0.8240 |     - |     - |    3465 B |
-|    AutoMapperMap | 2,178.8 ns |  23.08 ns |  20.46 ns | 0.7706 |     - |     - |    3225 B |
-|       MapsterMap |   736.0 ns |   8.18 ns |   7.65 ns | 0.7362 |     - |     - |    3080 B |
-|     AirMapperMap |   668.6 ns |   3.00 ns |   2.66 ns | 0.7362 |     - |     - |    3080 B |
-|    FastMapperMap | 5,666.5 ns | 103.45 ns | 127.05 ns | 1.9608 |     - |     - |    8218 B |
-| ValueInjecterMap | 4,784.0 ns |  17.14 ns |  15.19 ns | 0.1984 |     - |     - |     840 B |
-|    SafeMapperMap | 1,276.1 ns |  16.25 ns |  13.57 ns | 0.9174 |     - |     - |    3840 B |
+|           Method |       Mean |    Error |   StdDev |  Gen 0 | Allocated |
+|----------------- |-----------:|---------:|---------:|-------:|----------:|
+| ExpressMapperMap | 1,313.3 ns |  5.86 ns |  4.58 ns | 0.9518 |   3,985 B |
+|   AgileMapperMap |   682.0 ns |  2.87 ns |  2.40 ns | 0.8221 |   3,440 B |
+|    TinyMapperMap | 2,428.9 ns |  9.61 ns |  8.99 ns | 0.8278 |   3,464 B |
+|    AutoMapperMap | 1,323.2 ns |  6.13 ns |  5.12 ns | 0.7706 |   3,224 B |
+|       MapsterMap |   550.4 ns |  4.23 ns |  3.96 ns | 0.7362 |   3,080 B |
+| StaticsMapperMap |   508.6 ns |  5.15 ns |  4.82 ns | 0.7362 |   3,080 B |
+|    FastMapperMap | 3,574.4 ns | 13.41 ns | 12.55 ns | 1.9646 |   8,216 B |
+| ValueInjecterMap | 2,266.0 ns | 23.66 ns | 22.13 ns | 0.1373 |     584 B |
 
 
 ### More benchmark results
-https://github.com/florin-rotaru/NetMappers.Benchmarks/tree/master/NetMappers.Benchmarks/BenchmarksResults/2021.02.25
+https://github.com/florin-rotaru/net-mappers-benchmarks/tree/master/net-mappers-benchmarks/BenchmarksResults/2021.11.21
 
 ### Benchmark results summary
 |Library             |Passed                  |Failed                  
@@ -33,14 +31,14 @@ https://github.com/florin-rotaru/NetMappers.Benchmarks/tree/master/NetMappers.Be
 |AgileMapper         |17                      |0                       
 |AutoMapper          |17                      |0                       
 |Mapster             |17                      |0                       
-|AirMapper           |17                      |0                       
+|StaticsMapper       |17                      |0                       
 |HigLaboObjectMapper |14                      |3                       
 |FastMapper          |2                       |15                      
 |ValueInjecter       |8                       |9                       
 |PowerMapper         |12                      |5                       
-|SafeMapper          |9                       |8 
+   
 
 - passed: no exception thrown nor differences between source and destination members
 - failed: exception thrown or differences found between source and destination members
-  - [exceptions](https://github.com/florin-rotaru/NetMappers.Benchmarks/blob/master/NetMappers.Benchmarks/BenchmarksResults/2021.02.25/Failed.Exceptions.md)
-  - [diffs](https://github.com/florin-rotaru/NetMappers.Benchmarks/blob/master/NetMappers.Benchmarks/BenchmarksResults/2021.02.25/Failed.Diffs.md)
+  - [exceptions](https://github.com/florin-rotaru/net-mappers-benchmarks/tree/master/net-mappers-benchmarks/BenchmarksResults/2021.11.21/Failed.Exceptions.md)
+  - [diffs](https://github.com/florin-rotaru/net-mappers-benchmarks/tree/master/net-mappers-benchmarks/BenchmarksResults/2021.11.21/Failed.Diffs.md)
