@@ -20,7 +20,7 @@
     <PackageReference Include="RoslynMapper" Version="0.3.1" />
     <!--<PackageReference Include="SafeMapper" Version="2.0.120" />-->
     <PackageReference Include="Statics.Compare" Version="6.0.0" />
-    <PackageReference Include="Statics.Mapper" Version="5.0.1" />
+    <PackageReference Include="Statics.Mapper" Version="6.0.0" />
     <PackageReference Include="TinyMapper" Version="3.0.3" />
     <PackageReference Include="UltraMapper" Version="0.2.59" />
     <PackageReference Include="ValueInjecter" Version="3.2.0" />

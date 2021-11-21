@@ -229,7 +229,7 @@ namespace NetMappers.Benchmarks
 
         private static IEnumerable<TestResult> GetTestResults<S, D>(S source) where D : new()
         {
-            List<TestResult> testResults = new List<TestResult>();
+            List<TestResult> testResults = new();
 
             new Dictionary<string, Func<D>>
             {
@@ -286,7 +286,7 @@ namespace NetMappers.Benchmarks
             if (File.Exists(Path.Combine(resultsPath, "Summary.md")))
                 File.Delete(Path.Combine(resultsPath, "Summary.md"));
 
-            using (StreamWriter summary = new StreamWriter(Path.Combine(resultsPath, "Summary.md")))
+            using (StreamWriter summary = new(Path.Combine(resultsPath, "Summary.md")))
             {
                 Console.WriteLine("Results");
                 summary.WriteLine("# Results");
@@ -306,8 +306,8 @@ namespace NetMappers.Benchmarks
                     .Select(grp => new
                     {
                         library = $"{grp.Key}",
-                        passed = $"{grp.Count(r => !r.Err && r.Diffs.Count() == 0)}",
-                        failed = $"{grp.Count(r => r.Err || r.Diffs.Count() != 0)}"
+                        passed = $"{grp.Count(r => !r.Err && !r.Diffs.Any())}",
+                        failed = $"{grp.Count(r => r.Err || r.Diffs.Any())}"
                     })
                 .ForEach(r =>
                     {
@@ -329,7 +329,7 @@ namespace NetMappers.Benchmarks
             if (File.Exists(Path.Combine(resultsPath, "Failed.Exceptions.md")))
                 File.Delete(Path.Combine(resultsPath, "Failed.Exceptions.md"));
 
-            using (StreamWriter failedExceptions = new StreamWriter(Path.Combine(resultsPath, "Failed.Exceptions.md")))
+            using (StreamWriter failedExceptions = new(Path.Combine(resultsPath, "Failed.Exceptions.md")))
             {
                 Console.WriteLine("Failed - Exceptions");
                 failedExceptions.WriteLine("# Failed - Exceptions");
@@ -366,7 +366,7 @@ namespace NetMappers.Benchmarks
             if (File.Exists(Path.Combine(resultsPath, "Failed.Diffs.md")))
                 File.Delete(Path.Combine(resultsPath, "Failed.Diffs.md"));
 
-            using (StreamWriter failedDiffs = new StreamWriter(Path.Combine(resultsPath, "Failed.Diffs.md")))
+            using (StreamWriter failedDiffs = new(Path.Combine(resultsPath, "Failed.Diffs.md")))
             {
                 Console.WriteLine("Failed - Diffs");
                 failedDiffs.WriteLine("# Failed - Exceptions");
@@ -388,7 +388,7 @@ namespace NetMappers.Benchmarks
                 failedDiffs.WriteLine($"|{new string('-', 20)}|{new string('-', 24)}|{new string('-', 24)}|{new string('-', 26)}|{new string('-', 26)}|{new string('-', 128)}");
 
                 testResults
-                    .Where(r => r.Diffs != null && r.Diffs.Count() != 0)
+                    .Where(r => r.Diffs != null && r.Diffs.Any())
                     .OrderBy(r => r.Library)
                     .ForEach(r =>
                         r.Diffs.ForEach(d =>
