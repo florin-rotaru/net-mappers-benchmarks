@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>NetMappers.Benchmarks.From_Account_To_AccountDto-20220328-221831</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.14393.5006 (1607/AnniversaryUpdate/Redstone1)
+Intel Xeon CPU E5-2695 v3 2.30GHz, 1 CPU, 16 logical and 16 physical cores
+.NET SDK=6.0.201
+  [Host] : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+</code></pre>
+<pre><code>Job=InProcess  Toolchain=InProcessEmitToolchain  
+</code></pre>
+
+<table>
+<thead><tr><th>    Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Gen 0</th><th>Gen 1</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>ExpressMapperMap</td><td>2,417.8 ns</td><td>24.81 ns</td><td>22.00 ns</td><td>0.2174</td><td>0.0038</td><td>3,984 B</td>
+</tr><tr><td>AgileMapperMap</td><td>1,316.9 ns</td><td>14.52 ns</td><td>13.58 ns</td><td>0.1869</td><td>0.0038</td><td>3,440 B</td>
+</tr><tr><td>TinyMapperMap</td><td>4,941.7 ns</td><td>45.30 ns</td><td>42.37 ns</td><td>0.1831</td><td>-</td><td>3,464 B</td>
+</tr><tr><td>AutoMapperMap</td><td>2,396.9 ns</td><td>35.76 ns</td><td>31.70 ns</td><td>0.1755</td><td>0.0038</td><td>3,224 B</td>
+</tr><tr><td>MapsterMap</td><td>929.5 ns</td><td>14.38 ns</td><td>12.74 ns</td><td>0.1678</td><td>0.0038</td><td>3,080 B</td>
+</tr><tr><td>StaticsMapperMap</td><td>848.7 ns</td><td>13.97 ns</td><td>13.07 ns</td><td>0.1678</td><td>0.0029</td><td>3,080 B</td>
+</tr><tr><td>FastMapperMap</td><td>6,735.1 ns</td><td>52.42 ns</td><td>49.03 ns</td><td>0.4425</td><td>0.0076</td><td>8,216 B</td>
+</tr><tr><td>ValueInjecterMap</td><td>4,507.1 ns</td><td>70.66 ns</td><td>66.10 ns</td><td>0.0305</td><td>-</td><td>584 B</td>
+</tr></tbody></table>
+</body>
+</html>

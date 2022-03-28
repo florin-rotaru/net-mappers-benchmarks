@@ -19,11 +19,51 @@ namespace NetMappers.Benchmarks
         private static IMapper _autoMapper;
         //private static RoslynMapper.IMapEngine _roslynMapper;
 
+        static internal string GetProjectPath()
+            => Directory.GetCurrentDirectory();
+       
+        static internal string GetBenchmarksResultsPath() 
+            => Path.Combine(GetProjectPath(), "BenchmarksResults");
+
+        static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
+        {
+            // Get information about the source directory
+            var dir = new DirectoryInfo(sourceDir);
+
+            // Check if the source directory exists
+            if (!dir.Exists)
+                throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+
+            // Cache directories before we start copying
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // Create the destination directory
+            Directory.CreateDirectory(destinationDir);
+
+            // Get the files in the source directory and copy to the destination directory
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                string targetFilePath = Path.Combine(destinationDir, file.Name);
+                file.CopyTo(targetFilePath);
+            }
+
+            // If recursive and copying subdirectories, recursively call this method
+            if (recursive)
+            {
+                foreach (DirectoryInfo subDir in dirs)
+                {
+                    string newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+                    CopyDirectory(subDir.FullName, newDestinationDir, true);
+                }
+            }
+        }
+
         private static void Main(string[] args)
         {
             //ManualConfig config = ManualConfig
             //.Create(DefaultConfig.Instance)
             //.WithOptions(ConfigOptions.DisableOptimizationsValidator);
+
 
             BenchmarkRunner.Run<From_Account_To_AccountDto>();
 
@@ -50,21 +90,18 @@ namespace NetMappers.Benchmarks
             BenchmarkRunner.Run<From_TS1_To_TC1_0>();
             BenchmarkRunner.Run<From_TS1_To_TS1_0>();
 
-            var summaryPath = args.Length == 2 ? args[1] : string.Empty;
+            var currentResultsPath = Path.Combine(GetProjectPath(), "BenchmarkDotNet.Artifacts", "results");
+            var benchmarksResultsPath = Path.Combine(GetBenchmarksResultsPath(), DateTime.Now.ToString("yyyy.MM.dd"));
 
-            while (summaryPath == string.Empty)
-            {
-                Console.WriteLine("Summary path:");
-                summaryPath = Console.ReadLine();
-            }
+            if (Directory.Exists(benchmarksResultsPath))
+                Directory.Delete(benchmarksResultsPath, true);
 
-            if (!Directory.Exists(summaryPath))
-                return;
+            CopyDirectory(currentResultsPath, benchmarksResultsPath, true);
 
             ConfigureMappers();
-
+            
             WriteTestResults(
-                summaryPath,
+                benchmarksResultsPath,
                 GetTestResults<Account, AccountDto>(_fixture.Create<Account>())
                 .Concat(GetTestResults<TC0_Members, TC0_I0_Members>(_fixture.Create<TC0_Members>()))
                 .Concat(GetTestResults<TC0_Members, TC0_I1_Members>(_fixture.Create<TC0_Members>()))
@@ -276,13 +313,8 @@ namespace NetMappers.Benchmarks
             return testResults;
         }
 
-        private static void WriteTestResults(string path, IEnumerable<TestResult> testResults)
+        private static void WriteTestResults(string resultsPath, IEnumerable<TestResult> testResults)
         {
-            string resultsPath = Path.Combine(path, DateTime.Now.ToString("yyyy.MM.dd"));
-
-            if (!Directory.Exists(resultsPath))
-                Directory.CreateDirectory(resultsPath);
-
             if (File.Exists(Path.Combine(resultsPath, "Summary.md")))
                 File.Delete(Path.Combine(resultsPath, "Summary.md"));
 
