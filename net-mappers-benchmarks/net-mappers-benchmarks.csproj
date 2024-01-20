@@ -2,27 +2,25 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AgileObjects.AgileMapper" Version="1.8.0" />
-    <PackageReference Include="AutoFixture" Version="4.17.0" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-    <PackageReference Include="ExpressionDebugger" Version="2.2.0" />
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+    <PackageReference Include="ExpressionDebugger" Version="2.2.1" />
     <PackageReference Include="FastMapper.NetCore" Version="1.0.0" />
     <PackageReference Include="FluentMapper" Version="1.0.21" />
-    <PackageReference Include="HigLabo.Mapper" Version="6.2.0" />
+    <PackageReference Include="HigLabo.Mapper" Version="8.0.0.1" />
     <PackageReference Include="HolopaMir.ExpressMapper" Version="2.0.0" />
-    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="PowerMapper" Version="1.0.0" />
-    <PackageReference Include="RoslynMapper" Version="0.3.1" />
+    <PackageReference Include="RoslynMapper" Version="0.4.0" />
     <!--<PackageReference Include="SafeMapper" Version="2.0.120" />-->
-    <PackageReference Include="Statics.Compare" Version="6.0.0" />
-    <PackageReference Include="Statics.Mapper" Version="6.0.0" />
-    <PackageReference Include="TinyMapper" Version="3.0.3" />
-    <PackageReference Include="UltraMapper" Version="0.2.59" />
+    <PackageReference Include="Statics.Compare" Version="8.0.0" />
+    <PackageReference Include="Statics.Mapper" Version="8.0.0" />
+    <PackageReference Include="UltraMapper" Version="0.2.61" />
     <PackageReference Include="ValueInjecter" Version="3.2.0" />
   </ItemGroup>
 

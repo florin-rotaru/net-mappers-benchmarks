@@ -1,4 +1,4 @@
-﻿using AgileObjects.AgileMapper.Extensions;
+﻿//using AgileObjects.AgileMapper.Extensions;
 using AutoFixture;
 using AutoMapper;
 using BenchmarkDotNet.Running;
@@ -21,8 +21,8 @@ namespace NetMappers.Benchmarks
 
         static internal string GetProjectPath()
             => Directory.GetCurrentDirectory();
-       
-        static internal string GetBenchmarksResultsPath() 
+
+        static internal string GetBenchmarksResultsPath()
             => Path.Combine(GetProjectPath(), "BenchmarksResults");
 
         static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
@@ -99,7 +99,7 @@ namespace NetMappers.Benchmarks
             CopyDirectory(currentResultsPath, benchmarksResultsPath, true);
 
             ConfigureMappers();
-            
+
             WriteTestResults(
                 benchmarksResultsPath,
                 GetTestResults<Account, AccountDto>(_fixture.Create<Account>())
@@ -166,33 +166,33 @@ namespace NetMappers.Benchmarks
             });
             _autoMapper = mapperConfig.CreateMapper();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<Address, AddressDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<Product, ProductDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<OrderItem, OrderItemDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<Order, OrderDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<Account, AccountDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Address, AddressDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Product, ProductDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<OrderItem, OrderItemDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Order, OrderDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Account, AccountDto>();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TC0_I0_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TC0_I1_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TC0_I2_Nullable_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TC0_I0_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TC0_I1_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TC0_I2_Nullable_Members>();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TS0_I0_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TS0_I1_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TS0_I2_Nullable_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TS0_I0_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TS0_I1_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC0_Members, TS0_I2_Nullable_Members>();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TC0_I0_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TC0_I1_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TC0_I2_Nullable_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TC0_I0_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TC0_I1_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TC0_I2_Nullable_Members>();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I0_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I1_Members>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I2_Nullable_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I0_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I1_Members>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS0_Members, TS0_I2_Nullable_Members>();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC1, TC1_0>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TC1, TS1_0>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC1, TC1_0>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TC1, TS1_0>();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS1, TC1_0>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<TS1, TS1_0>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS1, TC1_0>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<TS1, TS1_0>();
 
 
             ExpressMapper.Mapper.Register<Address, AddressDto>();
@@ -264,14 +264,14 @@ namespace NetMappers.Benchmarks
             public IEnumerable<MemberDiff> Diffs { get; set; }
         }
 
-        private static IEnumerable<TestResult> GetTestResults<S, D>(S source) where D : new()
+        private static List<TestResult> GetTestResults<S, D>(S source) where D : new()
         {
             List<TestResult> testResults = new();
 
             new Dictionary<string, Func<D>>
             {
                 { nameof(ExpressMapper), () => ExpressMapper.Mapper.Map<S, D>(source) },
-                { nameof(AgileObjects.AgileMapper), () => AgileObjects.AgileMapper.Mapper.Map(source).ToANew<D>() },
+                //{ nameof(AgileObjects.AgileMapper), () => AgileObjects.AgileMapper.Mapper.Map(source).ToANew<D>() },
                 //{ nameof(Nelibur.ObjectMapper.TinyMapper), () => Nelibur.ObjectMapper.TinyMapper.Map<D>(source) },
                 { nameof(AutoMapper), () => _autoMapper.Map<D>(source) },
                 { nameof(Mapster), () => source.Adapt<D>() },
@@ -282,7 +282,9 @@ namespace NetMappers.Benchmarks
                 { nameof(PowerMapper), () => PowerMapper.Mapper.Map<S, D>(source) }
                 //{ nameof(SafeMapper), () => SafeMap.Convert<S, D>(source) }
                 //{ nameof(RoslynMapper), () => _roslynMapper.Map<S, D>(source) }
-            }.ForEach(test =>
+            }
+            .ToList()
+            .ForEach(test =>
             {
                 var testResult = new TestResult
                 {
@@ -341,7 +343,8 @@ namespace NetMappers.Benchmarks
                         passed = $"{grp.Count(r => !r.Err && !r.Diffs.Any())}",
                         failed = $"{grp.Count(r => r.Err || r.Diffs.Any())}"
                     })
-                .ForEach(r =>
+                    .ToList()
+                    .ForEach(r =>
                     {
                         Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
                             r.library,
@@ -379,6 +382,7 @@ namespace NetMappers.Benchmarks
                 testResults
                     .Where(r => r.Err)
                     .OrderBy(r => r.Library)
+                    .ToList()
                     .ForEach(r =>
                         {
                             Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}",
@@ -422,8 +426,11 @@ namespace NetMappers.Benchmarks
                 testResults
                     .Where(r => r.Diffs != null && r.Diffs.Any())
                     .OrderBy(r => r.Library)
+                    .ToList()
                     .ForEach(r =>
-                        r.Diffs.ForEach(d =>
+                        r.Diffs
+                        .ToList()
+                        .ForEach(d =>
                         {
                             Console.WriteLine("|{0,-20}|{1,-24}|{2,-24}|{3,-26}|{4,-26}|{5,-128}",
                                 r.Library,

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>NetMappers.Benchmarks.From_TC0_Members_To_TS0_I2_Nullable_Members-20240120-184202</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.13.12, Windows 10 (10.0.14393.6614/1607/AnniversaryUpdate/Redstone1) (Hyper-V)
+Intel Xeon CPU E5-2699 v3 2.30GHz, 1 CPU, 28 logical and 28 physical cores
+.NET SDK 8.0.101
+  [Host] : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>Job=InProcess  Toolchain=InProcessEmitToolchain  
+</code></pre>
+
+<table>
+<thead><tr><th>Method    </th><th>Mean </th><th>Error</th><th>StdDev</th>
+</tr>
+</thead><tbody><tr><td>ExpressMapperMap</td><td>3,662.23 ns</td><td>42.796 ns</td><td>37.937 ns</td>
+</tr><tr><td>AutoMapperMap</td><td>169.60 ns</td><td>1.520 ns</td><td>1.269 ns</td>
+</tr><tr><td>MapsterMap</td><td>101.61 ns</td><td>0.988 ns</td><td>0.825 ns</td>
+</tr><tr><td>StaticsMapperMap</td><td>59.25 ns</td><td>0.521 ns</td><td>0.462 ns</td>
+</tr><tr><td>FastMapperMap</td><td>NA</td><td>NA</td><td>NA</td>
+</tr><tr><td>ValueInjecterMap</td><td>1,248.60 ns</td><td>19.653 ns</td><td>16.411 ns</td>
+</tr></tbody></table>
+</body>
+</html>

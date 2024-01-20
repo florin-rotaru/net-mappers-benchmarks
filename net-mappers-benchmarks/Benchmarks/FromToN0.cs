@@ -36,7 +36,7 @@ namespace NetMappers.Benchmarks
             });
             _autoMapper = mapperConfig.CreateMapper();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<S, D>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<S, D>();
 
             ExpressMapper.Mapper.Register<S, D>();
 
@@ -48,11 +48,11 @@ namespace NetMappers.Benchmarks
         [Benchmark]
         public D ExpressMapperMap() => ExpressMapper.Mapper.Map<S, D>(_source);
 
-        [Benchmark]
-        public D AgileMapperMap() => AgileObjects.AgileMapper.Mapper.Map(_source).ToANew<D>();
+        //[Benchmark]
+        //public D AgileMapperMap() => AgileObjects.AgileMapper.Mapper.Map(_source).ToANew<D>();
 
-        [Benchmark]
-        public D TinyMapperMap() => Nelibur.ObjectMapper.TinyMapper.Map<D>(_source);
+        //[Benchmark]
+        //public D TinyMapperMap() => Nelibur.ObjectMapper.TinyMapper.Map<D>(_source);
 
         [Benchmark]
         public D AutoMapperMap() => _autoMapper.Map<D>(_source);

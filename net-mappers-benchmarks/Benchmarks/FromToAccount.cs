@@ -38,11 +38,11 @@ namespace NetMappers.Benchmarks
             });
             _autoMapper = mapperConfig.CreateMapper();
 
-            Nelibur.ObjectMapper.TinyMapper.Bind<Address, AddressDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<Product, ProductDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<OrderItem, OrderItemDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<Order, OrderDto>();
-            Nelibur.ObjectMapper.TinyMapper.Bind<Account, AccountDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Address, AddressDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Product, ProductDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<OrderItem, OrderItemDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Order, OrderDto>();
+            //Nelibur.ObjectMapper.TinyMapper.Bind<Account, AccountDto>();
 
             ExpressMapper.Mapper.Register<Address, AddressDto>();
             ExpressMapper.Mapper.Register<Product, ProductDto>();
@@ -62,11 +62,11 @@ namespace NetMappers.Benchmarks
         [Benchmark]
         public AccountDto ExpressMapperMap() => ExpressMapper.Mapper.Map<Account, AccountDto>(_source);
 
-        [Benchmark]
-        public AccountDto AgileMapperMap() => AgileObjects.AgileMapper.Mapper.Map(_source).ToANew<AccountDto>();
+        //[Benchmark]
+        //public AccountDto AgileMapperMap() => AgileObjects.AgileMapper.Mapper.Map(_source).ToANew<AccountDto>();
 
-        [Benchmark]
-        public AccountDto TinyMapperMap() => Nelibur.ObjectMapper.TinyMapper.Map<AccountDto>(_source);
+        //[Benchmark]
+        //public AccountDto TinyMapperMap() => Nelibur.ObjectMapper.TinyMapper.Map<AccountDto>(_source);
 
         [Benchmark]
         public AccountDto AutoMapperMap() => _autoMapper.Map<AccountDto>(_source);
